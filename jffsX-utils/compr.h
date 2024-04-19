@@ -113,5 +113,13 @@ void jffs2_rtime_exit(void);
 int jffs2_lzo_init(void);
 void jffs2_lzo_exit(void);
 #endif
+#ifdef CONFIG_JFFS2_RUBINMIPS
+int jffs2_rubinmips_init(void);
+void jffs2_rubinmips_exit(void);
+#endif
+#ifdef CONFIG_JFFS2_DYNRUBIN
+int jffs2_dynrubin_init(void);
+void jffs2_dynrubin_exit(void);
+#endif
 
 #endif /* __JFFS2_COMPR_H__ */
