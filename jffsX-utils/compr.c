@@ -511,6 +511,10 @@ reinsert:
 
 int jffs2_compressors_init(void)
 {
+#ifdef CONFIG_JFFS2_RUBIN
+	jffs2_rubinmips_init();
+	jffs2_dynrubin_init();
+#endif
 #ifdef WITH_ZLIB
 	jffs2_zlib_init();
 #endif
@@ -525,6 +529,10 @@ int jffs2_compressors_init(void)
 
 int jffs2_compressors_exit(void)
 {
+#ifdef CONFIG_JFFS2_RUBIN
+	jffs2_rubinmips_exit();
+	jffs2_dynrubin_exit();
+#endif
 #ifdef CONFIG_JFFS2_RTIME
 	jffs2_rtime_exit();
 #endif
