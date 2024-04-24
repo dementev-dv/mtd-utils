@@ -20,6 +20,7 @@
 #define RUBIN_REG_SIZE   16
 #define UPPER_BIT_RUBIN    (((long) 1)<<(RUBIN_REG_SIZE-1))
 #define LOWER_BITS_RUBIN   ((((long) 1)<<(RUBIN_REG_SIZE-1))-1)
+#define	ENOSPC		28	/* No space left on device */
 
 
 #define BIT_DIVIDER_MIPS 1043
@@ -46,7 +47,7 @@ static inline void init_pushpull(struct pushpull *pp, char *buf,
 				 unsigned buflen, unsigned ofs,
 				 unsigned reserve)
 {
-	pp->buf = buf;
+	pp->buf = (unsigned char *) buf;
 	pp->buflen = buflen;
 	pp->ofs = ofs;
 	pp->reserve = reserve;
@@ -264,7 +265,7 @@ static int rubin_do_compress(int bit_divider, int *bits, unsigned char *data_in,
 	int pos=0;
 	struct rubin_state rs;
 
-	init_pushpull(&rs.pp, cpage_out, *dstlen * 8, 0, 32);
+	init_pushpull(&rs.pp, (char *) cpage_out, *dstlen * 8, 0, 32);
 
 	init_rubin(&rs, bit_divider, bits);
 
@@ -370,7 +371,7 @@ static void rubin_do_decompress(int bit_divider, int *bits,
 	int outpos = 0;
 	struct rubin_state rs;
 
-	init_pushpull(&rs.pp, cdata_in, srclen, 0, 0);
+	init_pushpull(&rs.pp, (char *) cdata_in, srclen, 0, 0);
 	init_decode(&rs, bit_divider, bits);
 
 	while (outpos < destlen)
@@ -412,6 +413,7 @@ static struct jffs2_compressor jffs2_rubinmips_comp = {
 
 int jffs2_rubinmips_init(void)
 {
+	printf("mips init\n");
 	return jffs2_register_compressor(&jffs2_rubinmips_comp);
 }
 
@@ -430,6 +432,7 @@ static struct jffs2_compressor jffs2_dynrubin_comp = {
 
 int jffs2_dynrubin_init(void)
 {
+	printf("dyn init\n");
 	return jffs2_register_compressor(&jffs2_dynrubin_comp);
 }
 
