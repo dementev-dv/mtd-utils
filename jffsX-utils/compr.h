@@ -17,6 +17,7 @@
 #include "linux/jffs2.h"
 
 #define CONFIG_JFFS2_RTIME
+#define CONFIG_JFFS2_RUBIN
 
 #define JFFS2_RUBINMIPS_PRIORITY 10
 #define JFFS2_DYNRUBIN_PRIORITY  20
@@ -113,11 +114,9 @@ void jffs2_rtime_exit(void);
 int jffs2_lzo_init(void);
 void jffs2_lzo_exit(void);
 #endif
-#ifdef CONFIG_JFFS2_RUBINMIPS
+#ifdef CONFIG_JFFS2_RUBIN
 int jffs2_rubinmips_init(void);
 void jffs2_rubinmips_exit(void);
-#endif
-#ifdef CONFIG_JFFS2_DYNRUBIN
 int jffs2_dynrubin_init(void);
 void jffs2_dynrubin_exit(void);
 #endif
